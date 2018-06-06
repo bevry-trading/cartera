@@ -53,23 +53,24 @@ investment portfolio
 
 <!-- /INSTALL -->
 
+## Usage
 
 Cartera takes an input json file, otherwise at `~/Documents/Cartera/portfolio.json` that contains your investment portfolio in the format of:
 
 ``` json
 {
-	"portfolio": [
-		{
-			"currency": "BCH",
-			"amount": 2,
-			"purchased": "2017-08-01"
-		},
-		{
-			"currency": "ETH",
-			"amount": 2,
-			"purchased": "2017-08-01"
-		}
-	]
+  "portfolio": [
+    {
+      "currency": "BCH",
+      "amount": 2,
+      "purchased": "2017-08-01"
+    },
+    {
+      "currency": "ETH",
+      "amount": 2,
+      "purchased": "2017-08-01"
+    }
+  ]
 }
 ```
 
