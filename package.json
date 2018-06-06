@@ -61,6 +61,7 @@
       ]
     }
   ],
+  "preferGlobal": true,
   "bin": "bin.js",
   "main": "source/index.js",
   "dependencies": {
@@ -93,5 +94,7 @@
     "test": "node --harmony ./source/test.js --joe-reporter=console"
   },
   "maintainers": [],
-  "contributors": []
+  "contributors": [
+    "Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
+  ]
 }

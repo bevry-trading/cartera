@@ -39,9 +39,8 @@ investment portfolio
 <h2>Install</h2>
 
 <a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
-<li>Install: <code>npm install --save cartera</code></li>
-<li>Executable: <code>cartera</code></li>
-<li>Module: <code>require('cartera')</code></li></ul>
+<li>Install: <code>npm install --global cartera</code></li>
+<li>Executable: <code>cartera</code></li></ul>
 
 <h3><a href="https://github.com/bevry/editions" title="Editions are the best way to produce and consume packages you care about.">Editions</a></h3>
 
@@ -184,7 +183,9 @@ No sponsors yet! Will you be the first?
 
 <h3>Contributors</h3>
 
-No contributors yet! Will you be the first?
+These amazing people have contributed code to this project:
+
+<ul><li><a href="http://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry-trading/cartera/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry-trading/cartera">view contributions</a></li></ul>
 
 <a href="https://github.com/bevry-trading/cartera/blob/master/CONTRIBUTING.md#files">Discover how you can contribute by heading on over to the <code>CONTRIBUTING.md</code> file.</a>
 
