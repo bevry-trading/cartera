@@ -53,6 +53,7 @@ investment portfolio
 
 <!-- /INSTALL -->
 
+
 ## Usage
 
 Cartera takes an input json file, otherwise at `~/Documents/Cartera/portfolio.json` that contains your investment portfolio in the format of:

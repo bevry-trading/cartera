@@ -39,6 +39,10 @@
     }
   },
   "author": "Benjamin Lupton <b@lupton.cc> (http://balupton.com)",
+  "maintainers": [],
+  "contributors": [
+    "Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
+  ],
   "bugs": {
     "url": "https://github.com/bevry-trading/cartera/issues"
   },
@@ -61,8 +65,8 @@
       ]
     }
   ],
-  "preferGlobal": true,
   "bin": "bin.js",
+  "preferGlobal": true,
   "main": "source/index.js",
   "dependencies": {
     "node-fetch": "^2.1.2"
@@ -92,9 +96,5 @@
     "our:release:tag": "export MESSAGE=$(cat ./HISTORY.md | sed -n \"/## v$npm_package_version/,/##/p\" | sed 's/## //' | awk 'NR>1{print buf}{buf = $0}') && test \"$MESSAGE\" || (echo 'proper changelog entry not found' && exit -1) && git tag v$npm_package_version -am \"$MESSAGE\"",
     "our:release:push": "git push origin master && git push origin --tags",
     "test": "node --harmony ./source/test.js --joe-reporter=console"
-  },
-  "maintainers": [],
-  "contributors": [
-    "Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
-  ]
+  }
 }

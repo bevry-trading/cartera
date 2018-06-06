@@ -1,0 +1,22 @@
+sudo: false
+language: node_js
+node_js: []
+matrix:
+  fast_finish: true
+  allow_failures: []
+cache:
+  directories:
+  - "$HOME/.npm"
+  - "$HOME/.yarn-cache"
+install:
+- eval "$(curl -fsSL https://raw.githubusercontent.com/bevry/awesome-travis/1ec050bc004d0e2161cb5286c247850d24aecc02/scripts/node-install.bash)"
+before_script:
+- eval "$(curl -fsSL https://raw.githubusercontent.com/bevry/awesome-travis/1ec050bc004d0e2161cb5286c247850d24aecc02/scripts/node-verify.bash)"
+after_success:
+- eval "$(curl -fsSL https://raw.githubusercontent.com/bevry/awesome-travis/1ec050bc004d0e2161cb5286c247850d24aecc02/scripts/node-publish.bash)"
+notifications:
+  slack:
+    secure: VstyzcCktIAzSe0wc2hEmvsm+o6Z6tXcZek5/NoF7wK4de0Ske8CpNkHAFoJ6Jv5ud4R771kfU8w/SRERTDq1zQApbq0vgfhZZ5RO6XbgXS0Ur1sS9upVePLQTIXLRNrMR/+0kC0iIKj6Lu+5oxvpfjTFiK1L2EY6GozjpUWthx8bh3l6VamzYgwvWiRojh0XiI5fFZZ+ztlV//WwmmIm4OZGDHb2Apn0Jf98ynmWeWVmoMMqvs5nEugSvnSURCiUq8QmYlTYTifBtxDC95D/ZodSdmc5x2BLa2Yi2gD6MmnAmgrI09M22RyI0PQOwIrFT+ibpE7H7anv51QxXsV2vMEPfulaNhuzUuqQ8xT6hB/msLacuu6V/gvTWwo/QuckM1D3GqWnTSp5bPJ8n3S1qljLnulBYBcGNuRBa+jJP1FyvsBypNxYvW94ERGQWfLN4/V7qrhBTPJGiWa/GLnxsE/TnBTtCq6ni1UYVA8S3OzwXzqMKAc0Usu1XFDM9pz5XxrSvCxkNjIbGmhhavTVIavbwZOq6wUgUnKKf9EM/Um71E4Fx0en+9lAlnV2CyaTqtZQM6P7mqLPMEnGQcjwSEm+LsrUF2RfXOdxufkGdxZ2Ve+Vb9ebOQjdrPrSUQ04OoIrHz98kciq/z+5I5wXE8Jv9QWsZBq2qTcsnvFIf4=
+  email:
+    recipients:
+      secure: vLkyR/aPkMXb6HAA0MvPK/MMpQK8lQEnHS9Ih9wegu/1YI4kS+2l5qVaws42LJ80b6FDLuS9c/VV4Q6v8BJ00u9zyE6T9cDAgtmBr/G165pAbw4syGy/eBpnHlvzeEZAgNcUKcrtFVDqa2XE3cqPmU6YsVhH4XKTJnRQ8wt7bU6SdTSfxzRm8mSyJWyBDNQFD/8/XmbIOQ5HDJe8YLtAS3lQZxM5nt+DkDJRZZ1Cspl6dLQyNTcfKF2QZOXWMb4/bebv52Y9+B56Q94QHT8RG1gM57oVPhvDjxrorIlXuerw4+osopMH93u15iWQ93VSvFH1dyXfV6CHvvFyk9y87Oavu9nWHdk/s0DTdv66gCuKE1QP2/PHj+LMdRhkRY4bcp/nr/53NuBoQCSZoXVMbC3K6wzq7yvrEooHIgDb9IwQHRm6DM0mmJQ/k7gh1huBWDSzNR0C+P1V3CDa0/ByB3r1XibkCZMz+IKOl0GG0qFkrHKyIQMm6tdaQHhKohKGGdYHpLJxVvm6mQd7axUQ3DIjFAcHTx2+BRJQ5Q6a6G23QPdtf0cf4T3Vd7VJ1NMrxWeRPAm8HF7s0fqEI9WZzgavvjUHTpbenkLUSEwKP0VRtPBNe230a+YC1t+ERhfPnuxZaYEbugqNVeG2SVnqw85GbRRC8loeA78o5NbK8RI=
