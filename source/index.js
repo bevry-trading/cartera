@@ -1,12 +1,18 @@
 /* eslint no-mixed-operators:0 no-console:0 */
 'use strict'
 
+const fsUtil = require('fs')
 const fs = require('fs').promises
 const fetch = require('node-fetch')
+const mkdirp = require('mkdirp')
 
 const fiatCurrencies = ['USD', 'EUR', 'AUD']
 const defaultCryptoCurrency = 'BTC'
 const defaultFiatCurrency = 'USD'
+const homedir = `${process.env.HOME}/Documents/Cartera`
+const cachedir = `${homedir}/cache`
+
+mkdirp.sync(cachedir)
 
 function flatten (arr) {
 	return [].concat(...arr)
@@ -18,15 +24,42 @@ function uniq (arr) {
 	))
 }
 
+async function cache (url, test) {
+	try {
+		const hash = require('crypto').createHash('md5').update(url).digest('hex')
+		const cachefile = `${cachedir}/${hash}`
+		const exists = fsUtil.existsSync(cachefile)
+		if (exists) {
+			const text = await fs.readFile(cachefile)
+			const data = JSON.parse(text)
+			return data
+		}
+		else {
+			const data = await fetch(url).then((res) => res.json())
+			const text = JSON.stringify(data, null, '  ')
+			if (test(data) !== true) {
+				throw new Error(`test failed for ${url} with data: ${text}`)
+			}
+			await fs.writeFile(cachefile, text)
+			return data
+		}
+	}
+	catch (e) {
+		throw e
+	}
+}
+
 async function readPortfolio () {
 	try {
-		const data = await fs.readFile(process.argv[2] || `${process.env.HOME}/Documents/Cartera/portfolio.json`)
+		const data = await fs.readFile(process.argv[2] || `${homedir}/portfolio.json`)
 		return JSON.parse(data).portfolio
 	}
 	catch (e) {
 		throw e
 	}
 }
+
+
 
 async function fetchHistoricalData (currency, datetime) {
 	try {
@@ -35,10 +68,10 @@ async function fetchHistoricalData (currency, datetime) {
 		const from = currency
 		const to = uniq([currency, defaultFiatCurrency, defaultCryptoCurrency, fiatCurrencies]).join(',')
 		const url = `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${from}&tsyms=${to}&ts=${timestamp}`
-		const data = await fetch(url).then((res) => res.json())
+		const data = await cache(url, (data) => data.Response !== 'Error')
 		const result = data[currency]
 		if (!result) {
-			console.log(data)
+			console.log('data:', data)
 		}
 		result.when = timestamp
 		return result
@@ -51,6 +84,7 @@ async function fetchHistoricalData (currency, datetime) {
 async function main () {
 	try {
 		const portfolio = await readPortfolio()
+		let total = 0
 		await Promise.all(
 			portfolio.map(async function (entry) {
 				const isFiat = fiatCurrencies.indexOf(entry.currency) !== -1
@@ -91,9 +125,18 @@ async function main () {
 					amount: Number(profitAmount.toFixed(2)),
 					profit: profitAmount > 0
 				}
+
+				if (fiatCurrency === defaultFiatCurrency) {
+					total += profitAmount
+				}
+				else {
+					console.log('unable to add an entry to total')
+				}
 			})
 		)
-		console.log(require('util').inspect(portfolio, { colors: true, depth: 10, compact: false }))
+
+		console.log(JSON.stringify(portfolio, null, '  '))
+		console.log(total)
 	}
 	catch (e) {
 		throw e

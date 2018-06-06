@@ -1,4 +1,7 @@
 # History
 
-## v1.0.0 2015 October 25
-- Some feature
+## v1.1.0 2018 June 6
+- Enable caching
+
+## v1.0.0 2018 June 6
+- Initial working release
