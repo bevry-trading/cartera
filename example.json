@@ -1,0 +1,28 @@
+{
+  "portfolio": [
+    {
+      "currency": "BCH",
+      "open": {
+        "when": "2017-08-01",
+        "bought": {
+          "amount": 2
+        }
+      },
+      "close": {
+        "when": "2018-06-20T05:00:00.000Z"
+      }
+    },
+    {
+      "currency": "ETH",
+      "open": {
+        "when": "2017-08-01",
+        "bought": {
+          "amount": 2
+        }
+      },
+      "close": {
+        "when": "2018-06-20T05:00:00.000Z"
+      }
+    }
+  ]
+}

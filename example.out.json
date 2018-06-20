@@ -1,0 +1,150 @@
+{
+  "items": [
+    {
+      "currency": "BCH",
+      "open": {
+        "when": "2017-08-01T00:00:00.000Z",
+        "bought": {
+          "amount": 2,
+          "currency": "BCH",
+          "price": 0.002276504200150249
+        },
+        "sold": {
+          "currency": "USD",
+          "amount": 878.54,
+          "price": 439.27
+        },
+        "market": {
+          "USD": {
+            "USD": 1,
+            "BCH": 0.002277
+          },
+          "BCH": {
+            "USD": 439.27,
+            "BCH": 1
+          }
+        },
+        "value": {
+          "USD": 878.54,
+          "BCH": 2
+        }
+      },
+      "close": {
+        "when": "2018-06-20T05:00:00.000Z",
+        "bought": {
+          "currency": "USD",
+          "amount": 1800.34,
+          "price": 900.17
+        },
+        "sold": {
+          "currency": "BCH",
+          "amount": 2,
+          "price": 0.0011109012742037616
+        },
+        "market": {
+          "USD": {
+            "USD": 1,
+            "BCH": 0.001111
+          },
+          "BCH": {
+            "USD": 900.17,
+            "BCH": 1
+          }
+        },
+        "value": {
+          "USD": 1800.34,
+          "BCH": 4.0984815716985
+        },
+        "changes": {
+          "USD": {
+            "amount": 921.8,
+            "difference": 104.92407858492498,
+            "remaining": 204.92407858492498
+          },
+          "BCH": {
+            "amount": 2.0984815716984997,
+            "difference": 104.92407858492498,
+            "remaining": 204.92407858492498
+          }
+        }
+      }
+    },
+    {
+      "currency": "ETH",
+      "open": {
+        "when": "2017-08-01T00:00:00.000Z",
+        "bought": {
+          "amount": 2,
+          "currency": "ETH",
+          "price": 0.004426737494466578
+        },
+        "sold": {
+          "currency": "USD",
+          "amount": 451.8,
+          "price": 225.9
+        },
+        "market": {
+          "USD": {
+            "USD": 1,
+            "ETH": 0.004427
+          },
+          "ETH": {
+            "USD": 225.9,
+            "ETH": 1
+          }
+        },
+        "value": {
+          "USD": 451.8,
+          "ETH": 2
+        }
+      },
+      "close": {
+        "when": "2018-06-20T05:00:00.000Z",
+        "bought": {
+          "currency": "USD",
+          "amount": 1072.38,
+          "price": 536.19
+        },
+        "sold": {
+          "currency": "ETH",
+          "amount": 2,
+          "price": 0.0018650105373095357
+        },
+        "market": {
+          "USD": {
+            "USD": 1,
+            "ETH": 0.001865
+          },
+          "ETH": {
+            "USD": 536.19,
+            "ETH": 1
+          }
+        },
+        "value": {
+          "USD": 1072.38,
+          "ETH": 4.74714475431607
+        },
+        "changes": {
+          "USD": {
+            "amount": 620.5800000000002,
+            "difference": 137.35723771580348,
+            "remaining": 237.35723771580348
+          },
+          "ETH": {
+            "amount": 2.7471447543160696,
+            "difference": 137.35723771580348,
+            "remaining": 237.35723771580348
+          }
+        }
+      }
+    }
+  ],
+  "totals": {
+    "currency": "USD",
+    "open": 1330.34,
+    "close": 2872.7200000000003,
+    "change": 1542.38,
+    "difference": 115.93878256686263,
+    "remaining": 215.93878256686264
+  }
+}
