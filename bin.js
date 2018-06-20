@@ -10,6 +10,10 @@ async function main () {
 		if (pathIndex !== -1) {
 			opts.path = process.argv[pathIndex + 1]
 		}
+		const currencyIndex = process.argv.indexOf('--currency')
+		if (currencyIndex !== -1) {
+			opts.currency = process.argv[currencyIndex + 1].toUpperCase()
+		}
 		opts.output = process.argv.indexOf('--json') === -1 ? 'user' : 'json'
 		return await cartera(opts)
 	}

@@ -7,8 +7,9 @@ const fetch = require('node-fetch')
 const mkdirp = require('mkdirp')
 const pathUtil = require('path')
 const { isDate } = require('typechecker')
+const currencyFormatter = require('currency-formatter')
+const currencyFormatterSupportedCurrencies = require('currency-formatter/currencies.json')
 
-const defaultCurrency = 'USD'
 const homedir = `${process.env.HOME}/Documents/Cartera`
 const cachedir = `${homedir}/cache`
 
@@ -116,7 +117,7 @@ async function fetchHistoricalData (currency, datetime, currencies) {
 
 function getAmount (amount, decimals, output) {
 	const result = Number(amount)
-	if (output === 'user') {
+	if (output === 'user' && decimals) {
 		return Number(result.toFixed(decimals))
 	}
 	else {
@@ -125,14 +126,8 @@ function getAmount (amount, decimals, output) {
 }
 
 function getCurrency (amount, currency, output) {
-	if (output === 'user' && currency === 'USD') {
-		const result = getAmount(amount, 2, output)
-		if (result < 0) {
-			return '-$' + (result * -1)
-		}
-		else {
-			return '$' + result
-		}
+	if (output === 'user' && currencyFormatterSupportedCurrencies[currency] != null) {
+		return currencyFormatter.format(amount, { code: currency })
 	}
 	else {
 		return getAmount(amount, null, output)
@@ -149,11 +144,12 @@ function getPercent (amount, output) {
 	}
 }
 
-async function main ({ path = `${homedir}/portfolio.json`, output = 'user' }) {
+async function main ({ path = `${homedir}/portfolio.json`, output = 'user', currency = 'USD' }) {
 	try {
+		const defaultCurrency = currency
 		const entries = await readPortfolio(pathUtil.resolve(process.cwd(), path))
 		const totals = {
-			currency: defaultCurrency,
+			currency,
 			open: 0.00,
 			close: 0.00,
 			change: 0.00,

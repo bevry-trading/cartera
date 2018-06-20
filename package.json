@@ -1,6 +1,6 @@
 {
   "name": "cartera",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "investment portfolio",
   "homepage": "https://github.com/bevry-trading/cartera",
   "license": "MIT",
@@ -69,6 +69,7 @@
   "preferGlobal": true,
   "main": "source/index.js",
   "dependencies": {
+    "currency-formatter": "^1.4.2",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.1.2",
     "typechecker": "^4.5.0"

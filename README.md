@@ -89,9 +89,9 @@ Cartera portfolios are JSON files like this:
 }
 ```
 
-By default the portfolio is located at `~/Documents/Cartera/portfolio.json` however you can specify a custom path via `cartera --path <path/file.json>`
+The default portfolio location is `~/Documents/Cartera/portfolio.json` and you can specify a custom path via `cartera --path <path/file.json>`.
 
-Running cartera will output a result like this:
+Running cartera with the above will output a result that looks like this:
 
 ``` js
 {
@@ -246,7 +246,7 @@ Running cartera will output a result like this:
 }
 ```
 
-And can generate JSON output by using the `--json` flag:
+You can generate JSON output by using the `--json` flag:
 
 ``` json
 {
@@ -400,6 +400,8 @@ And can generate JSON output by using the `--json` flag:
   }
 }
 ```
+
+The default currency (which is also used for reporting) is `USD` and can be customised via `cartera --currency <EUR>`.
 
 
 <!-- HISTORY/ -->
