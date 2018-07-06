@@ -2,6 +2,7 @@
 
 const util = require('util')
 const locale = require('os-locale').sync().replace('_', '-')
+const Decimal = require('decimal.js-light')
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 const numberFormats = {
@@ -32,7 +33,7 @@ class Datetime extends Date {
 	}
 }
 
-class Percent extends Number {
+class Percent extends Decimal {
 	[util.inspect.custom] (depth, { stylize }) {
 		const result = numberFormats.percent.format(this)
 		return stylize(
@@ -42,7 +43,7 @@ class Percent extends Number {
 	}
 }
 
-class Currency extends Number {
+class Currency extends Decimal {
 	constructor (amount, currency) {
 		super(amount)
 		if (!currency) throw new Error('currency must be defined')
@@ -50,39 +51,39 @@ class Currency extends Number {
 	}
 
 	equal (b) {
-		return this.toString() === b.toString()
+		return this.currency === b.currency && this.equals(b)
 	}
 
 	notEqual (b) {
-		return this.toString() !== b.toString()
+		return !this.equal(b)
 	}
 
 	add (b) {
 		const a = this
-		if (this.currency !== b.currency) throw new Error('cannot add two different currencies')
-		const result = new Currency(a + b, this.currency)
+		if (b.currency && this.currency !== b.currency) throw new Error('cannot add two different currencies')
+		const result = new Currency(a.plus(b), this.currency)
 		console.log('add', util.inspect({ a, b, result }))
 		return result
 	}
 
 	subtract (b) {
 		const a = this
-		if (this.currency !== b.currency) throw new Error('cannot subtract two different currencies')
-		const result = new Currency(a - b, this.currency)
+		if (b.currency && this.currency !== b.currency) throw new Error('cannot subtract two different currencies')
+		const result = new Currency(a.minus(b), this.currency)
 		console.log('subtract', util.inspect({ a, b, result }))
 		return result
 	}
 
 	divide (b, currency) {
 		const a = this
-		const result = new Currency(a / b, currency)
+		const result = new Currency(a.dividedBy(b), currency)
 		console.log('divide', util.inspect({ a, b, result }))
 		return result
 	}
 
 	multiply (b, currency) {
 		const a = this
-		const result = new Currency(a * b, currency)
+		const result = new Currency(a.times(b), currency)
 		console.log('multiply', util.inspect({ a, b, result }))
 		return result
 	}
@@ -91,8 +92,8 @@ class Currency extends Number {
 		const amount = this
 		const currency = this.currency
 		const result = getCurrencyFormat(currency).format(amount)
-		if (amount.equal(0)) return stylize(result) // ' [ ' + stylize(amount.toString(), 'number') + ' ]'
-		return stylize(result, 'number') // ' [ ' + stylize(amount.toString(), 'number') + ' ]'
+		if (amount.equal(0)) return stylize(result) // + ' [ ' + stylize(amount.toString(), 'number') + ' ]'
+		return stylize(result, 'number') // + ' [ ' + stylize(amount.toString(), 'number') + ' ]'
 	}
 }
 

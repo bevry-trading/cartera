@@ -7,6 +7,7 @@ const fs = require('fs').promises
 const fetch = require('node-fetch')
 const mkdirp = require('mkdirp')
 const pathUtil = require('path')
+const extendr = require('extendr')
 
 const homedir = `${process.env.HOME}/Documents/Cartera`
 const cachedir = `${homedir}/cache`
@@ -92,13 +93,49 @@ async function fetchHistoricalData (currency, datetime, currencies) {
 }
 
 function checkAssets (assets, currencies) {
-	currencies.forEach(function (currency) {
-		if (assets[currency] == null) assets[currency] = new Currency(0.0, currency)
-		if (assets[currency] < 0) {
-			console.error(assets)
-			throw new Error('asset became below zero, this should not occur')
+	if (!assets.totals) assets.totals = {}
+	for (const group of Object.keys(assets)) {
+		for (const currency of currencies) {
+			if (assets[group][currency] == null) assets[group][currency] = new Currency(0.0, currency)
+			if (assets[group][currency] < 0) {
+				console.error(assets)
+				throw new Error('asset became below zero, this should not occur: ' + assets[group][currency])
+			}
 		}
-	})
+	}
+}
+function updateAssets (assets, currencies, entry = null) {
+	if (entry) {
+		const fromAccount = entry.from.account || 'unknown'
+		const toAccount = entry.to.account || 'unknown'
+		if (!assets[fromAccount]) assets[fromAccount] = {}
+		if (!assets[toAccount]) assets[toAccount] = {}
+
+		checkAssets(assets, currencies)
+
+		if (entry.type === 'inward') {
+			assets.totals[entry.to.currency] = assets.totals[entry.to.currency].add(entry.to.total)
+			assets[toAccount][entry.to.currency] = assets[toAccount][entry.to.currency].add(entry.to.total)
+		}
+		else if (entry.type === 'outward') {
+			assets.totals[entry.from.currency] = assets.totals[entry.from.currency].subtract(entry.from.total)
+			assets[fromAccount][entry.from.currency] = assets[fromAccount][entry.from.currency].subtract(entry.from.total)
+		}
+		else if (entry.type === 'transfer') {
+			assets.totals[entry.from.currency] = assets.totals[entry.from.currency].subtract(entry.from.total)
+			assets.totals[entry.to.currency] = assets.totals[entry.to.currency].add(entry.to.total)
+			assets[fromAccount][entry.from.currency] = assets[fromAccount][entry.from.currency].subtract(entry.from.total)
+			assets[toAccount][entry.to.currency] = assets[toAccount][entry.to.currency].add(entry.to.total)
+		}
+		else {
+			throw new Error('unknown transaction type')
+		}
+
+		checkAssets(assets, currencies)
+	}
+	else {
+		checkAssets(assets, currencies)
+	}
 }
 
 function updateAmounts (entry) {
@@ -141,7 +178,7 @@ function computeDiscrepancy (quotedRate, actualRate, sold, bought) {
 function computeHolding (assets, market, datetime, last = null) {
 	const holding = {
 		when: datetime,
-		assets: Object.assign({}, assets),
+		assets: extendr.clone(assets),
 		value: {}
 	}
 	if (last) {
@@ -235,7 +272,7 @@ async function main ({ path = `${homedir}/portfolio.json`, output = 'user', curr
 		})
 
 		const usedCurrencies = Object.keys(usedCurrencyMap)
-		checkAssets(assets, usedCurrencies)
+		updateAssets(assets, usedCurrencies)
 		const nowMarket = await fetchMarket(markets, nowDatetime, usedCurrencies)
 
 		let lastEntry = null
@@ -304,22 +341,7 @@ async function main ({ path = `${homedir}/portfolio.json`, output = 'user', curr
 			entry.open = computeHolding(assets, market, entry.when, lastEntry && lastEntry.close)
 
 			// assets
-			log(assets)
-			if (entry.type === 'inward') {
-				assets[entry.to.currency] = assets[entry.to.currency].add(entry.to.total)
-			}
-			else if (entry.type === 'outward') {
-				assets[entry.to.currency] = assets[entry.to.currency].subtract(entry.to.total)
-			}
-			else if (entry.type === 'transfer') {
-				assets[entry.from.currency] = assets[entry.from.currency].subtract(entry.from.total)
-				assets[entry.to.currency] = assets[entry.to.currency].add(entry.to.total)
-			}
-			else {
-				throw new Error('unknown transaction type')
-			}
-			log(assets)
-			checkAssets(assets, usedCurrencies)
+			updateAssets(assets, usedCurrencies, entry)
 
 			// close
 			entry.close = computeHolding(assets, market, entry.when, entry.open)

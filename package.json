@@ -69,6 +69,8 @@
   "preferGlobal": true,
   "main": "source/index.js",
   "dependencies": {
+    "decimal.js-light": "^2.4.1",
+    "extendr": "^3.3.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.1.2",
     "os-locale": "^2.1.0",
