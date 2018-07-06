@@ -69,9 +69,9 @@
   "preferGlobal": true,
   "main": "source/index.js",
   "dependencies": {
-    "currency-formatter": "^1.4.2",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.1.2",
+    "os-locale": "^2.1.0",
     "typechecker": "^4.5.0"
   },
   "devDependencies": {
